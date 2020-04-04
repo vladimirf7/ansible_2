@@ -1,0 +1,17 @@
+---
+# This playbook installs Amazon Corretto JDK
+
+- name: Install JDK
+  gather_facts: false
+  hosts: all
+  tasks:
+
+    - name: "Download Amazon Corretto 8 JDK from https://corretto.aws/downloads/latest/amazon-corretto-8-x64-windows-jdk.msi"
+      win_get_url:
+        follow_redirects: all
+        url: "https://corretto.aws/downloads/latest/amazon-corretto-8-x64-windows-jdk.msi"
+        dest: "C:\\CorrettoJDK8.msi"
+
+    - name: "Install Amazon Corretto 8 JDK from C:\\CorrettoJDK8.msi"
+      win_package:
+        path: "C:\\CorrettoJDK8.msi"
