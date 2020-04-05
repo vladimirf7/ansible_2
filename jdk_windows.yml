@@ -4,15 +4,22 @@
 - name: Install JDK
   gather_facts: false
   hosts: all
+  vars:
+    url: https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u242-b08/OpenJDK8U-jdk_x64_windows_hotspot_8u242b08.msi
+    file_name: "{{ url | basename }}"
+    version: "{{ url.split('/')[7] }}"
   tasks:
 
-    - name: "Download Amazon Corretto 8 JDK from https://corretto.aws/downloads/latest/amazon-corretto-8-x64-windows-jdk.msi"
+    - debug:
+        msg: "{{file_name}} {{version}}"
+
+    - name: "Download AdoptOpenJDK [{{version}}] from {{url}}"
       win_get_url:
         follow_redirects: all
         force: no
-        url: "https://corretto.aws/downloads/latest/amazon-corretto-8-x64-windows-jdk.msi"
-        dest: "C:\\CorrettoJDK8.msi"
+        url: "{{url}}"
+        dest: "C:\\{{file_name}}"
 
-    - name: "Install Amazon Corretto 8 JDK from C:\\CorrettoJDK8.msi"
+    - name: "Install AdoptOpenJDK"
       win_package:
-        path: "C:\\CorrettoJDK8.msi"
+        path: "C:\\{{file_name}}"
