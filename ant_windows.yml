@@ -1,0 +1,27 @@
+---
+# This playbook installs Amazon Corretto JDK
+
+- name: Install Apache Ant
+  gather_facts: false
+  hosts: all
+  vars:
+    url: http://us.mirrors.quenda.co/apache//ant/binaries/apache-ant-1.10.7-bin.zip
+
+  tasks:
+
+    - name: "Download Apache Ant from {{url}}"
+      win_get_url:
+        follow_redirects: all
+        force: no
+        url: "{{url}}"
+        dest: "C:\\{{ url.split('/')[-1] }}"
+
+    - name: Unzip Apache Ant
+      win_unzip:
+        src: "C:\\{{ url.split('/')[-1] }}"
+        dest: "C:\\"
+
+    - name: Ensure Ant is in PATH
+      win_path:
+        elements:
+        - "C:\\{{ url.split('-')[:3] }}\\bin"
