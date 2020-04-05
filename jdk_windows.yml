@@ -10,8 +10,10 @@
     version: "{{ url.split('/')[7] }}"
   tasks:
 
-    - debug:
-        msg: "{{file_name}} {{version}}"
+    - name: Check if AdoptOpenJDK already downloaded
+      stat: 
+        path: "C:\\{{file_name}}"
+      register: jdk_downloaded
 
     - name: "Download AdoptOpenJDK [{{version}}] from {{url}}"
       win_get_url:
@@ -19,6 +21,7 @@
         force: no
         url: "{{url}}"
         dest: "C:\\{{file_name}}"
+      when: jdk_downloaded.stat.exists
 
     - name: "Install AdoptOpenJDK"
       win_package:
