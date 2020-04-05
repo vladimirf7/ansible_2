@@ -9,6 +9,7 @@
     - name: "Download Amazon Corretto 8 JDK from https://corretto.aws/downloads/latest/amazon-corretto-8-x64-windows-jdk.msi"
       win_get_url:
         follow_redirects: all
+        force: no
         url: "https://corretto.aws/downloads/latest/amazon-corretto-8-x64-windows-jdk.msi"
         dest: "C:\\CorrettoJDK8.msi"
 
